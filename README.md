@@ -1,7 +1,6 @@
-#Ansible Infrastructure Automation Suite
+Ansible Infrastructure Automation Suite
 A comprehensive Ansible playbook collection for automated deployment and management of containerized services and infrastructure components. This project provides ready-to-use automation for common DevOps scenarios including container orchestration, VPN setup, database management, and security hardening.
-
-##Features
+Features
 
 🐳 Container Management: Docker deployment and configuration
 🔒 VPN Infrastructure: WireGuard VPN server setup and client management
