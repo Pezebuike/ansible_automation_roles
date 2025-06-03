@@ -1,0 +1,22 @@
+- name: install packages
+  ansible.builtin.package:
+    name: wireguard-tools
+    state: present
+  become: yes
+
+- name: wg-iornwall
+  ansible.builtin.copy:
+    src: files/wg-iornwall.conf
+    dest: /etc/wireguard/wg-iornwall.conf
+    owner: root
+    group: root
+    mode: '0600'
+  become: yes
+  notify: restart wg-iornwall
+
+- name: ensure wg-quick@wg-iornwall.service is started and enabled at boot
+  ansible.builtin.systemd:
+    name: wg-quick@wg-iornwall.service
+    state: started
+    enabled: yes
+  become: yes

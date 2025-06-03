@@ -1,0 +1,5 @@
+- name: restart wg-iornwall
+  ansible.builtin.systemd:
+    name: wg-quick@wg-iornwall.service
+    state: restarted
+  become: yes

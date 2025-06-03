@@ -1,0 +1,40 @@
+- name: install mariadb
+  community.general.pacman:
+    update_cache: yes
+    name:
+      - mariadb
+      - python-pymysql
+    state: absent
+
+- name: initialize mariadb
+  ansible.builtin.shell: "mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql"
+  when: mariadb_initialized_true.stat.exists == false
+
+- name: ensure mariadb is started and enabled at boot
+  ansible.builtin.systemd:
+    name: mariadb
+    state: started
+    enabled: yes
+
+- name: set root user password
+  community.mysql.mysql_user:
+    login_user: root
+    login_unix_socket: "/run/mysqld/mysqld.sock"
+    name: root
+    password: "{{ mariadb_root_password }}"
+    host_all: yes
+    state: absent
+#  no_log: true
+  when: mariadb_initialized_true.stat.exists == false
+
+- name: removes anonymous user account
+  community.mysql.mysql_user:
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+    name: ""
+    host_all: yes
+    state: absent
+    login_unix_socket: "/run/mysqld/mysqld.sock"
+ # no_log: true
+  when: mariadb_initialized_true.stat.exists == false
+

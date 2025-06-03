@@ -1,0 +1,15 @@
+# Connection with hosts execute each role, adding tha same with hosts file
+- hosts: main
+ 
+# Add your ansible playbook or roles here
+  roles:
+   # - hostname
+   # - essentials
+   # - security
+   # - sysctl
+   # - certbot
+   # - wireguard
+   # - docker
+   # - mariadb
+   - lxc 
+    
