@@ -1,0 +1,60 @@
+---
+# handlers/main.yml - Fixed version without 'listen' directive
+
+- name: reload systemd
+  systemd:
+    daemon_reload: yes
+  become: yes
+
+- name: restart node_exporter
+  systemd:
+    name: node_exporter
+    state: restarted
+  become: yes
+
+- name: start node_exporter
+  systemd:
+    name: node_exporter
+    state: started
+  become: yes
+
+- name: stop node_exporter
+  systemd:
+    name: node_exporter
+    state: stopped
+  become: yes
+
+- name: enable node_exporter
+  systemd:
+    name: node_exporter
+    enabled: yes
+  become: yes
+
+- name: disable node_exporter
+  systemd:
+    name: node_exporter
+    enabled: no
+  become: yes
+
+# Health check handler (separate tasks, no complex blocks)
+- name: wait for node_exporter
+  wait_for:
+    port: "{{ node_exporter_port | default(9100) }}"
+    host: "127.0.0.1"
+    timeout: 30
+
+- name: verify node_exporter_service
+  systemd:
+    name: node_exporter
+  register: service_status
+  failed_when: service_status.status.ActiveState != "active"
+  become: yes
+
+- name: verify node_exporter_metrics
+  uri:
+    url: "http://localhost:{{ node_exporter_port | default(9100) }}/metrics"
+    method: GET
+    status_code: 200
+    timeout: 10
+  retries: 3
+  delay: 5

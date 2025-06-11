@@ -3,7 +3,7 @@
  
 # Add your ansible playbook or roles here
   roles:
-   # - hostname
+   - hostname
    # - essentials
    # - security
    # - sysctl
@@ -11,5 +11,8 @@
    # - wireguard
    # - docker
    # - mariadb
-   - lxc 
-    
+   # - lxc 
+   - node_exporter
+   - prometheus
+   - prometheus_alertmanager_configpromet
+

@@ -1,6 +1,6 @@
 - name: set hostname
   ansible.builtin.hostname:
-    name: vps.iornwall.com
+    name: ec2-13-60-169-125.eu-north-1.compute.amazonaws.com
     use: systemd
 
 - name: localhost
@@ -8,7 +8,7 @@
     path: /etc/hosts
     line: 127.0.0.1 localhost.localdomain localhost
 
-- name: vps.do-p.com
+- name: ec2-13-61-35-135.eu-north-1.compute.amazonaws.com
   ansible.builtin.lineinfile:
     path: /etc/hosts
-    line: 172.236.15.146 vps.iornwall.com vps
+    line: 13.60.169.125 ec2-13-60-169-125.eu-north-1.compute.amazonaws.com
